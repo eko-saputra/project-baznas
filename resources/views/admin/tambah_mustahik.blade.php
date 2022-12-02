@@ -73,7 +73,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="exampleFormControlInput4" class="form-label">Kegunaan</label>
-                        <textarea name="kegunaan" class="form-control" cols="30" rows="10"></textarea>
+                        <textarea name="kegunaan" class="form-control" cols="30" rows="10">{{ old('kegunaan') }}</textarea>
                     </div>
                     <div class="mb-5">
                         <button class="btn btn-success" type="submit">SIMPAN DATA MUSTAHIK</button>

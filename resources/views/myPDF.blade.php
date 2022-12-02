@@ -1,18 +1,40 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Laravel 9 Generate PDF Example - ItSolutionStuff.com</title>
+    <title>Detail Profil - Data Mustahik</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<style>
+    .tabel {
+        width: 100%;
+        margin: auto;
+        border: 1px solid gray;
+    }
+
+    .tabel td {
+        padding: 5px;
+        border: 1px solid gray;
+    }
+
+    .photo {
+        border: 2px solid gray;
+        border-radius: 10px;
+        padding: 5px;
+        width: 70%;
+    }
+</style>
 </head>
 <body>
-    <table class="table table-bordered">
+    <table class="tabel">
         <tr>
-            <th colspan="2" class="text-center">DETAIL PROFIL</th>
+            <td colspan="3" align="center"><b><h3>DETAIL PROFIL</h3></b><i>Detail Data Mustahik</i></td>
         </tr>
         @foreach($mustahik as $u)
         <tr>
-            <td>No. Kartu Keluarga</td>
-            <td>{{ $u->no_kartu_kk }}</td>
+            <td width="40%"><b>No. Kartu Keluarga</b></td>
+            <td width="30%"><b>{{ $u->no_kartu_kk }}</b></td>
+            <td rowspan="4" width="30%" valign="middle" align="center">
+                <img src="upload/{{$u->photo}}" class="photo">
+            </td>
         </tr>
         <tr>
             <td>Nama Kepala Keluarga</td>
@@ -27,65 +49,73 @@
             <td>{{ $u->pekerjaan }}</td>
         </tr>
         <tr>
-            <td colspan="2">&nbsp;</td>
+            <td colspan="3">&nbsp;</td>
         </tr>
         <tr>
             <td>Nama Penerima</td>
-            <td>{{ $u->nama_penerima }}</td>
+            <td colspan="2">{{ $u->nama_penerima }}</td>
         </tr>
         <tr>
             <td>NIK Penerima</td>
-            <td>{{ $u->nik_penerima }}</td>
+            <td colspan="2">{{ $u->nik_penerima }}</td>
         </tr>
         <tr>
             <td>Alamat</td>
-            <td>{{ $u->alamat }}</td>
+            <td colspan="2">{{ $u->alamat }}</td>
         </tr>
         <tr>
-            <td colspan="2">&nbsp;</td>
+            <td colspan="3">&nbsp;</td>
         </tr>
 
         <tr>
             <td>Tanggal Proposal</td>
-            <td>{{ $u->tanggal_pengajuan }}</td>
+            <td colspan="2">{{ $u->tanggal_pengajuan }}</td>
         </tr>
 
         <tr>
             <td>Pertimbangan</td>
-            <td>{{ $u->pertimbangan_saran }}</td>
+            <td colspan="2">{{ $u->pertimbangan_saran }}</td>
         </tr>
 
         <tr>
             <td>Hasil Keputusan</td>
-            <td>{{ $u->status_keputusan }}</td>
+            <td colspan="2">{{ $u->status_keputusan }}</td>
         </tr>
 
         <tr>
             <td>Dana Yang Disetujui</td>
-            <td>{{ $u->dana_yang_disetujui }}</td>
+                                <?php 
+                                function rupiah($angka){
+                                    
+                                    $hasil_rupiah = "Rp " . number_format($angka,2,',','.');
+                                    return $hasil_rupiah;
+                                
+                                }
+                                ?>
+            <td colspan="2"><?=rupiah($u->dana_yang_disetujui);?></td>
         </tr>
 
         <tr>
             <td>Jenis Bantuan</td>
-            <td>{{ $u->jenis_bantuan }}</td>
+            <td colspan="2">Dumai {{ $u->jenis_bantuan }}</td>
         </tr>
 
         <tr>
             <td>Alamat</td>
-            <td>{{ $u->alamat }}</td>
+            <td colspan="2">{{ $u->alamat }}</td>
         </tr>
 
         <tr>
             <td>Kegunaan</td>
-            <td>{{ $u->kegunaan }}</td>
+            <td colspan="2">{{ $u->kegunaan }}</td>
         </tr>
 
         <tr>
             <td>Alamat</td>
-            <td>{{ $u->alamat }}</td>
+            <td colspan="2">{{ $u->alamat }}</td>
         </tr>
         @endforeach
     </table>
-  
-</body>
+    <p align="center" style="margin-top: 50px;"><u>Baznas Kota Dumai</u></p>
+ </body>
 </html>

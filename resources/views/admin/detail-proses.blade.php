@@ -93,9 +93,17 @@
                                 <li class="list-group-item text-start mb-3"><i>Kegunaan :</i> <b>{{$u->kegunaan}}</b></li>
                                 </ul>
                             </div>
-                           <div class="text-start mt-3">
+                            <div class="text-start mt-3">
+                           <?php 
+                           if($jum == 0) {
+                            ?>
                             <button class="btn btn-success px-4" data-bs-toggle="modal" data-bs-target="#exampleModal">VALIDASI</button>
-                           </div>
+                            <?php  
+                        } else {
+                            echo "<b class='text-muted'>Ket</b> : <b class='text-warning'>Anda sudah melakukan validasi!</b>";
+                        }
+                        ?>
+                        </div>
                         </div>
                    </div>
                 </div>
@@ -128,11 +136,33 @@
                     <option value="Ditolak" <?= $u->status_keputusan == 'Ditolak' ? 'selected' : ''?>>Ditolak</option>
                 </select>
                 <div class="form-group my-3">
-                    <textarea name="pertimbangan" class="form-control" cols="10" rows="4" placeholder="Pertimbangan / Saran / Usul">{{$u->pertimbangan_saran}}</textarea>
+                    <?php 
+                    if($u->pertimbangan_saran != null) {
+                        ?>
+                    Pertimbangan / Saran yang sudah ditetapkan <b>{{$u->pertimbangan_saran}}</b>
+                    <?php
+                    } else {
+                    ?>
+                    <textarea name="pertimbangan" class="form-control" cols="10" rows="4" placeholder="Pertimbangan / Saran / Usul"></textarea>
+                    <?php    
+                    }
+                    ?>
                 </div>
                 <div class="form-group">
-                    <input type="number" class="form-control" name="dana" placeholder="Dana yang disetujui" value="{{$u->dana_yang_disetujui}}">
+                    <?php 
+                    if($u->dana_yang_disetujui != null) {
+                        ?>
+                        Dana Yang Sudah disetujui <b><?=rupiah($u->dana_yang_disetujui);?></b>
+                        <?php
+                        } else {
+                        ?>
+                        
+                    <input type="text" class="form-control" name="dana" placeholder="Dana yang disetujui">
+                    <?php    
+                    }
+                    ?>
                 </div>
+               
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary">SIMPAN</button>

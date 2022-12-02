@@ -25,11 +25,18 @@
                         <label for="exampleFormControlInput2" class="form-label">Password</label>
                         <input type="password" class="form-control bg-light" id="exampleFormControlInput2" name="password" value="{{ old('password') }}">
                     </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput2" class="form-label">Level</label>
+                        <select name="level" class="form-control">
+                            <option value="pimpinan">Pimpinan</option>
+                            <option value="staff">Staff</option>
+                        </select>
+                    </div>
                     
                     <div class="mb-5">
                         <button class="btn btn-success" type="submit">SIMPAN DATA USER</button>
                         <p class="mt-3">
-                            <span class="text-danger">INFO </span> : <span class="text-muted">Data user yang ditambahkan hanya sebagai staff.</span>
+                            <span class="text-danger">INFO </span> : <span class="text-muted">Data user yang ditambahkan sesuaikan dengan level hak akses.</span>
                         </p>
                     </div>
                 </div>

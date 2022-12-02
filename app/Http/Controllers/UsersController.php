@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -8,34 +9,34 @@ use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
 {
-    public function data_user() {
-        if(!Auth::user())
-        {
+    public function data_user()
+    {
+        if (!Auth::user()) {
             return redirect()->intended('/login');
         } else {
             $data['role'] = Auth::user()->role;
             $data['name'] = Auth::user()->name;
             $data['users'] = User::get();
 
-            return view('admin/users',$data);
+            return view('admin/users', $data);
         }
     }
 
-    public function tambah_user() {
-        if(!Auth::user())
-        {
+    public function tambah_user()
+    {
+        if (!Auth::user()) {
             return redirect()->intended('/login');
         } else {
             $data['role'] = Auth::user()->role;
             $data['name'] = Auth::user()->name;
 
-            return view('admin/tambah_user',$data);
+            return view('admin/tambah_user', $data);
         }
     }
 
-    public function simpan_user(Request $request) {
-        if(!Auth::user())
-        {
+    public function simpan_user(Request $request)
+    {
+        if (!Auth::user()) {
             return redirect()->intended('/login');
         } else {
             $data['role'] = Auth::user()->role;
@@ -44,37 +45,38 @@ class UsersController extends Controller
                 'nama' => 'required',
                 'username' => 'required',
                 'password' => 'required',
+                'level' => 'required',
             ]);
 
             $user = new User([
                 'name' => $request->nama,
                 'username' => $request->username,
-                'password' => $request->password,
-                'role' => 'staff'
+                'password' => Hash::make($request->password),
+                'role' => $request->level,
             ]);
-    
+
             $user->save();
 
             return redirect()->intended('/users')->with('success', 'Data user berhasil ditambahkan!');
         }
     }
 
-    public function edit_user($id) {
-        if(!Auth::user())
-        {
+    public function edit_user($id)
+    {
+        if (!Auth::user()) {
             return redirect()->intended('/login');
         } else {
             $data['role'] = Auth::user()->role;
             $data['name'] = Auth::user()->name;
-            $data['users'] = User::where('user_id',$id)->get();
+            $data['users'] = User::where('user_id', $id)->get();
 
-            return view('admin/edit_user',$data);
+            return view('admin/edit_user', $data);
         }
     }
 
-    public function ubah_user(Request $request) {
-        if(!Auth::user())
-        {
+    public function ubah_user(Request $request)
+    {
+        if (!Auth::user()) {
             return redirect()->intended('/login');
         } else {
             $data['role'] = Auth::user()->role;
@@ -82,18 +84,21 @@ class UsersController extends Controller
             $request->validate([
                 'nama' => 'required',
                 'username' => 'required',
+                'level' => 'required',
             ]);
 
-            if($request->password == '') {
+            if ($request->password == '') {
                 User::where('user_id', $request->id)->update([
                     'name' => $request->nama,
                     'username' => $request->username,
+                    'role' => $request->level,
                 ]);
             } else {
                 User::where('user_id', $request->id)->update([
                     'name' => $request->nama,
                     'username' => $request->username,
                     'password' => Hash::make($request->password),
+                    'role' => $request->level,
                 ]);
             }
 
@@ -101,20 +106,21 @@ class UsersController extends Controller
         }
     }
 
-    public function hapus_user($id){
+    public function hapus_user($id)
+    {
         User::where('user_id', $id)->delete();
         return redirect()->to('/users')->with('success', 'Data user berhasil dihapus!');
     }
 
-    public function password(){
-        if(!Auth::user())
-        {
+    public function password()
+    {
+        if (!Auth::user()) {
             return redirect()->intended('/login');
         } else {
             $data['role'] = Auth::user()->role;
             $data['name'] = Auth::user()->name;
 
-            return view('admin/password',$data);
+            return view('admin/password', $data);
         }
     }
 

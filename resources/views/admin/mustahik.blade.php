@@ -91,6 +91,7 @@
                   $badge = 'danger';
                 }
               ?>
+              <li class="list-group-item">Dana Yang Disetujui <b>{{$u->dana_yang_disetujui}}</b></li>
               <li class="list-group-item">Status <b><span class="badge bg-<?=$badge;?>">{{$u->status_keputusan}}</span></b></li>
               <li class="list-group-item">Tanggal Pengajuan <b>{{$u->tanggal_pengajuan}}</b></li>
               <li class="list-group-item">Kegunaan <b>{{$u->kegunaan}}</b></li>

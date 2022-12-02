@@ -24,7 +24,9 @@
         <td>{{$u->role}}</td>
         <td>
             <a href="{{url('/edit_user/'.$u->user_id)}}" class="btn btn-primary">Ubah</a> 
+            @if($u->name != $name)
             <a href="{{url('/hapus_user/'.$u->user_id)}}" class="btn btn-danger" onclick="return confirm('Apakah anda yakin ingin menghapus data ini?');">Hapus</a> 
+            @endif
         </td>
     </tr>
     @endforeach

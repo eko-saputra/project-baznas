@@ -3,7 +3,6 @@
 @section('content')
         <div class="container shadow mb-3 pb-3">
           <img src="{{asset('images/banner1.png')}}" class="mb-3 mt-3" width="100%">
-          {{-- <h6 class="py-2 bg-dark text-muted text-center">List Data <i>MUSTAHIK</i></h6> --}}
           <?php 
                                 function rupiah($angka){
                                     
@@ -28,7 +27,7 @@
               @foreach ($mustahik as $u)
               <tr>
                 <td>{{$u->nama_kepala_kk}}</td>
-                <td>{{$u->kelurahan}}</td>
+                <td><?= strtr($u->kelurahan,"-"," ");?></td>
                 <?php 
                                     if($u->status_keputusan == 'Pending'){
                                         $bg = 'warning';
@@ -38,9 +37,11 @@
                                         $bg = 'danger';
                                     }
                                 ?>
-                <td><span class="badge bg-{{$bg}}">{{$u->status_keputusan}}</span></td>
+                <td>
+                  <span class="badge bg-{{$bg}}">{{$u->status_keputusan}}</span>
+                </td>
                 <td><?=rupiah($u->dana_yang_disetujui);?></td>
-                <td>{{$u->jenis_bantuan}}</td>
+                <td>Dumai {{$u->jenis_bantuan}}</td>
                 <td>{{$u->tanggal_pengajuan}}</td>
                 <td class="text-center">
                   <button data-bs-toggle="modal" data-bs-target="#exampleModal{{$u->mustahik_id}}" class="btn btn-warning text-dark">
@@ -108,6 +109,8 @@
                   $badge = 'danger';
                 }
               ?>
+              <li class="list-group-item">Pertimbangan / Saran <b>{{$u->pertimbangan_saran}}</b></li>
+              <li class="list-group-item">Dana Yang Disetujui <b><?=rupiah($u->dana_yang_disetujui);?></b></li>
               <li class="list-group-item">Status <b><span class="badge bg-<?=$badge;?>">{{$u->status_keputusan}}</span></b></li>
               <li class="list-group-item">Tanggal Pengajuan <b>{{$u->tanggal_pengajuan}}</b></li>
               <li class="list-group-item">Kegunaan <b>{{$u->kegunaan}}</b></li>

@@ -28,6 +28,13 @@
                         <input type="password" class="form-control bg-light" id="exampleFormControlInput2" name="password" value="{{ old('password') }}">
                         <i class="mt-3 text-danger">Kosongkan password jika tidak ada perubahan!</i>
                     </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput2" class="form-label">Level</label>
+                        <select name="level" class="form-control">
+                            <option value="pimpinan" <?= $u->role == 'pimpinan' ? 'selected' : '' ?>>Pimpinan</option>
+                            <option value="staff" <?= $u->role == 'staff' ? 'selected' : '' ?>>Staff</option>
+                        </select>
+                    </div>
                     
                     <div class="mb-5">
                         <button class="btn btn-success" type="submit">UBAH DATA USER</button>

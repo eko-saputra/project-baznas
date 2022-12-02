@@ -15,7 +15,6 @@
         <th>Jenis Bantuan</th>
         <th>Status</th>
         <th>Tanggal Pengajuan</th>
-        <th>Aksi</th>
     </tr>
     </thead>
     <tbody>
@@ -27,10 +26,6 @@
         <td>Dumai {{$u->jenis_bantuan}}</td>
         <td><span class="badge bg-danger text-light">{{$u->status_keputusan}}</span></td>
         <td>{{$u->created_at}}</td>
-        <td>
-            {{-- <a href="{{url('/detail-proses/'.$u->user_id)}}" class="btn btn-warning">Detail dan Proses</a>  --}}
-            <a href="{{url('/detail-proses/'.$u->mustahik_id)}}" class="btn btn-warning">Detail & Proses</a> 
-        </td>
       </tr>
     @endforeach
     </tbody>
