@@ -80,7 +80,7 @@ class MustahikController extends Controller
             $data['role'] = Auth::user()->role;
             $data['name'] = Auth::user()->name;
             $request->validate([
-                'no_kartu_kk' => 'required|unique:tb_mustahik,no_kartu_kk',
+                'no_kartu_kk' => 'required',
                 'nama_kepala_keluarga' => 'required',
                 'jumlah_tanggungan' => 'required',
                 'pekerjaan' => 'required',
@@ -122,10 +122,10 @@ class MustahikController extends Controller
                 'jenis_bantuan' => $request->jenis_bantuan,
                 'kegunaan' => $request->kegunaan,
                 'status_keputusan' => 'Pending',
-                'tanggal_pengajuan' => date('d-m-Y'),
+                'tanggal_pengajuan' => date('d-m-Y H:i:s'),
                 'photo' => $fileName,
-                'updated_at' => date('Y-m-d H:i:s'),
-                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('d-m-Y H:i:s'),
+                'created_at' => date('d-m-Y H:i:s'),
             ]);
     
             $mustahik->save();

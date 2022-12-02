@@ -7,6 +7,8 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MustahikController;
 
+use App\Http\Controllers\PDFController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -44,3 +46,5 @@ Route::post('/ubah_user', [UsersController::class, 'ubah_user']);
 
 Route::get('/detail-proses/{id}', [MustahikController::class, 'detail_proses']);
 Route::post('/simpan-keputusan', [MustahikController::class, 'simpan_keputusan']);
+
+Route::get('generate-pdf/{id}', [PDFController::class, 'generatePDF']);
