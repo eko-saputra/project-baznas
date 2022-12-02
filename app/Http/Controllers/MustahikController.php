@@ -268,7 +268,7 @@ class MustahikController extends Controller
 
                 $jm = Validasi::where('mustahik_id', $request->id)->where('status', 'Disetujui')->get();
 
-                if (count($jm) == 5) {
+                if (count($jm) == 3) {
                     // echo "ok";
                     // exit;
                     Mustahik::where('mustahik_id', $request->id)->update([

@@ -6,6 +6,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MustahikController;
+use App\Http\Controllers\ExcelController;
 
 use App\Http\Controllers\PDFController;
 
@@ -48,3 +49,9 @@ Route::get('/detail-proses/{id}', [MustahikController::class, 'detail_proses']);
 Route::post('/simpan-keputusan', [MustahikController::class, 'simpan_keputusan']);
 
 Route::get('generate-pdf/{id}', [PDFController::class, 'generatePDF']);
+
+Route::controller(ExcelController::class)->group(function () {
+    Route::get('mustahik', 'index');
+    Route::get('mustahik-export', 'export')->name('mustahik.export');
+    Route::post('mustahik-import', 'import')->name('mustahik.import');
+});
