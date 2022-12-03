@@ -31,6 +31,8 @@
                             <li class="list-group-item text-start"><i>Nama :</i> <b>{{$u->nama_kepala_kk}}</b></li>
                             <li class="list-group-item text-start"><i>Jumlah Tanggungan :</i> <b>{{$u->jumlah_keluarga_tanggungan}}</b> Orang</li>
                             <li class="list-group-item text-start"><i>Pekerjaan :</i> <b>{{$u->pekerjaan}}</b></li>
+                            <li class="list-group-item text-start"><i>No HP :</i> <b>{{$u->no_hp}}</b></li>
+                            <li class="list-group-item text-start"><i>Jenis Kelamin :</i> <b>{{$u->jenis_kelamin}}</b></li>
                             <?php 
                                 if($u->kecamatan == 1){
                                     $kec = "Bukit Kapur";

@@ -51,7 +51,6 @@ Route::post('/simpan-keputusan', [MustahikController::class, 'simpan_keputusan']
 Route::get('generate-pdf/{id}', [PDFController::class, 'generatePDF']);
 
 Route::controller(ExcelController::class)->group(function () {
-    Route::get('mustahik', 'index');
-    Route::get('mustahik-export', 'export')->name('mustahik.export');
-    Route::post('mustahik-import', 'import')->name('mustahik.import');
+    Route::get('mustahik-export/{id}', 'export')->name('mustahik.export');
+    Route::get('mustahik-export-staff', 'export_staff')->name('mustahik.export.staff');
 });

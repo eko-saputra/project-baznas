@@ -6,21 +6,14 @@ use App\Models\Mustahik;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class MustahikExport implements FromCollection, WithHeadings
+class MustahikExport_staff implements FromCollection, WithHeadings
 {
-
-    protected $id;
-
-    public function __construct($id)
-    {
-        $this->id = $id;
-    }
     /**
      * @return \Illuminate\Support\Collection
      */
     public function collection()
     {
-        return Mustahik::select("no_kartu_kk", "nama_kepala_kk", "jumlah_keluarga_tanggungan", "pekerjaan", "nama_penerima", "nik_penerima", "kecamatan", "kelurahan", "alamat", "jenis_bantuan", "status_keputusan", "tanggal_pengajuan", "pertimbangan_saran", "dana_yang_disetujui", "kegunaan")->where('mustahik_id', $this->id)->get();
+        return Mustahik::select("no_kartu_kk", "nama_kepala_kk", "jumlah_keluarga_tanggungan", "pekerjaan", "nama_penerima", "nik_penerima", "kecamatan", "kelurahan", "alamat", "jenis_bantuan", "status_keputusan", "tanggal_pengajuan", "pertimbangan_saran", "dana_yang_disetujui", "kegunaan")->get();
     }
 
     /**

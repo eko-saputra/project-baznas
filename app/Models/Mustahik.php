@@ -19,6 +19,8 @@ class Mustahik extends Authenticatable
         'nama_kepala_kk',
         'jumlah_keluarga_tanggungan',
         'pekerjaan',
+        'no_hp',
+        'jenis_kelamin',
         'nama_penerima',
         'nik_penerima',
         'kecamatan',

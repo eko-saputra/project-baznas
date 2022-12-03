@@ -32,6 +32,18 @@
                         <input type="text" class="form-control bg-light" id="exampleFormControlInput2" name="pekerjaan" value="{{$u->pekerjaan}}">
                     </div>
                     <div class="mb-3">
+                        <label for="exampleFormControlInput2" class="form-label">No HP</label>
+                        <input type="number" class="form-control bg-light" id="exampleFormControlInput2" name="no_hp" value="{{$u->no_hp}}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput2" class="form-label">Jenis Kelamin</label>
+                        <select class="form-control bg-light" id="jenis_kelamin" name="jenis_kelamin">
+                            <option value="">- Pilih Jenis Kelamin -</option>
+                            <option value="Laki-laki" <?= $u->jenis_kelamin == 'Laki-laki' ? 'selected' : '' ?>>Laki-Laki</option>
+                            <option value="Perempuan" <?= $u->jenis_kelamin == 'Perempuan' ? 'selected' : '' ?>>Perempuan</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
                         <label for="exampleFormControlInput3" class="form-label">Nama Penerima</label>
                         <input type="text" class="form-control bg-light" id="exampleFormControlInput3" name="nama_penerima" value="{{$u->nama_penerima}}">
                     </div>

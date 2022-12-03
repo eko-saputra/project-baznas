@@ -31,22 +31,30 @@
         @foreach($mustahik as $u)
         <tr>
             <td width="40%"><b>No. Kartu Keluarga</b></td>
-            <td width="30%"><b>{{ $u->no_kartu_kk }}</b></td>
-            <td rowspan="4" width="30%" valign="middle" align="center">
+            <td width="30%" colspan="2"><b>{{ $u->no_kartu_kk }}</b></td>
+            {{-- <td rowspan="6" width="30%" valign="middle" align="center">
                 <img src="upload/{{$u->photo}}" class="photo">
-            </td>
+            </td> --}}
         </tr>
         <tr>
             <td>Nama Kepala Keluarga</td>
-            <td>{{ $u->nama_kepala_kk }}</td>
+            <td colspan="2">{{ $u->nama_kepala_kk }}</td>
         </tr>
         <tr>
             <td>Jumlah Keluarga Tanggungan</td>
-            <td>{{ $u->jumlah_keluarga_tanggungan }}</td>
+            <td colspan="2">{{ $u->jumlah_keluarga_tanggungan }}</td>
         </tr>
         <tr>
             <td>Pekerjaan Kepala Keluarga</td>
-            <td>{{ $u->pekerjaan }}</td>
+            <td colspan="2">{{ $u->pekerjaan }}</td>
+        </tr>
+        <tr>
+            <td>No HP</td>
+            <td colspan="2">{{ $u->no_hp }}</td>
+        </tr>
+        <tr>
+            <td>Jenis Kelamin</td>
+            <td colspan="2">{{$u->jenis_kelamin }}</td>
         </tr>
         <tr>
             <td colspan="3">&nbsp;</td>
@@ -108,11 +116,6 @@
         <tr>
             <td>Kegunaan</td>
             <td colspan="2">{{ $u->kegunaan }}</td>
-        </tr>
-
-        <tr>
-            <td>Alamat</td>
-            <td colspan="2">{{ $u->alamat }}</td>
         </tr>
         @endforeach
     </table>

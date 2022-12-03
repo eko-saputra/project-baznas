@@ -1,8 +1,9 @@
 @extends('layout')
 
 @section('content')
-        <div class="container shadow mb-3 pb-3">
+        <div class="container shadow pb-3">
           <img src="{{asset('images/banner1.png')}}" class="mb-3 mt-3" width="100%">
+          <hr>
           <?php 
                                 function rupiah($angka){
                                     
@@ -11,6 +12,9 @@
                                 
                                 }
                                 ?>
+                                
+          <h3><span class="text-success">DATA</span> <b class="text-warning">MUSTAHIK</b></h3>
+          <hr>
           <table class="table bg-white table-bordered" id="mustahik">
             <thead>
               <tr class="bg-light">
@@ -55,7 +59,7 @@
                     <path d="M0 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-1v-2a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2H2a2 2 0 0 1-2-2V7zm2.5 1a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/>
                   </svg>
                 </a>
-                <a class="btn btn-warning float-end" href="{{ route('mustahik.export') }}"><img src="{{asset('images/excel.svg')}}" width="20"></a>
+                  <a class="btn btn-warning" href="{{ url('mustahik-export/'.$u->mustahik_id) }}"><img src="{{asset('images/excel.svg')}}" width="20"></a>
                 </td>
               </tr>
               @endforeach
@@ -75,13 +79,16 @@
         <div class="modal-body">
           {{-- <img src="{{asset('upload/'.$u->photo)}}" width="100%" class="img-thumbnail"> --}}
           <div class="card">
-            <img src="{{asset('upload/'.$u->photo)}}" class="card-img-top img-thumbnail">
+            {{-- <img src="{{asset('upload/'.$u->photo)}}" class="card-img-top img-thumbnail"> --}}
             <div class="card-body">
-              <h5 class="card-title">NO KK <b class="text-success">{{$u->no_kartu_kk}}</b></h5>
+              <h3 class="card-title"><b class="text-success">{{$u->no_kartu_kk}}</b></h3>
             </div>
             <ul class="list-group list-group-flush">
               <li class="list-group-item">Nama Kepala Keluarga <b>{{$u->nama_kepala_kk}}</b></li>
               <li class="list-group-item">Nama Penerima <b>{{$u->nama_penerima}}</b></li>
+              <li class="list-group-item">No HP <b>{{$u->no_hp}}</b></li>
+              <li class="list-group-item">Jenis Kelamin <b>{{$u->jenis_kelamin}}</b></li>
+              <li class="list-group-item">Alamat <b>{{$u->alamat}}</b></li>
                 <?php 
                     if($u->kecamatan == 1){
                         $kec = "Bukit Kapur";
