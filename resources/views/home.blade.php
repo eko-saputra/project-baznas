@@ -33,16 +33,16 @@
                 <td>{{$u->nama_kepala_kk}}</td>
                 <td><?= strtr($u->kelurahan,"-"," ");?></td>
                 <?php 
-                                    if($u->status_keputusan == 'Pending'){
-                                        $bg = 'warning';
-                                    } else if($u->status_keputusan == 'Disetujui'){
-                                        $bg = 'success';
-                                    } else if($u->status_keputusan == 'Ditolak'){
-                                        $bg = 'danger';
-                                    }
-                                ?>
+                                //     if($u->status_keputusan == 'Pending'){
+                                //         $bg = 'warning';
+                                //     } else if($u->status_keputusan == 'Disetujui'){
+                                //         $bg = 'success';
+                                //     } else if($u->status_keputusan == 'Ditolak'){
+                                //         $bg = 'danger';
+                                //     }
+                                // ?>
                 <td>
-                  <span class="badge bg-{{$bg}}">{{$u->status_keputusan}}</span>
+                  <span class="badge bg-warning">{{$u->status_keputusan}}</span>
                 </td>
                 <td><?=rupiah($u->dana_yang_disetujui);?></td>
                 <td>Dumai {{$u->jenis_bantuan}}</td>
@@ -80,13 +80,14 @@
           {{-- <img src="{{asset('upload/'.$u->photo)}}" width="100%" class="img-thumbnail"> --}}
           <div class="card">
             {{-- <img src="{{asset('upload/'.$u->photo)}}" class="card-img-top img-thumbnail"> --}}
-            <div class="card-body">
-              <h3 class="card-title"><b class="text-success">{{$u->no_kartu_kk}}</b></h3>
+            <div class="card-body bg-success">
+              <h3 class="card-title"><b class="text-light">{{$u->no_kartu_kk}}</b></h3>
+              <i class="text-light"><b>{{$u->nama_kepala_kk}}</b></i>
             </div>
             <ul class="list-group list-group-flush">
-              <li class="list-group-item">Nama Kepala Keluarga <b>{{$u->nama_kepala_kk}}</b></li>
+              {{-- <li class="list-group-item">Nama Kepala Keluarga <b>{{$u->nama_kepala_kk}}</b></li> --}}
               <li class="list-group-item">Nama Penerima <b>{{$u->nama_penerima}}</b></li>
-              <li class="list-group-item">No HP <b>{{$u->no_hp}}</b></li>
+              {{-- <li class="list-group-item">No HP <b>{{$u->no_hp}}</b></li> --}}
               <li class="list-group-item">Jenis Kelamin <b>{{$u->jenis_kelamin}}</b></li>
               <li class="list-group-item">Alamat <b>{{$u->alamat}}</b></li>
                 <?php 
@@ -106,20 +107,20 @@
                         $kec = "Sungai Sembilan";
                     }
                 ?>
-              <li class="list-group-item">Kec :  <b><?=$kec;?></b> | Kel:  <b><?= strtr($u->kelurahan,"-"," ");?></b> | <b>{{$u->alamat}}</b></li>
+              <li class="list-group-item">Kec :  <b><?=$kec;?></b> | Kel:  <b><?= strtr($u->kelurahan,"-"," ");?></b></li>
               <li class="list-group-item">Jenis Bantuan <b>Dumai {{$u->jenis_bantuan}}</b></li>
               <?php 
-                if($u->status_keputusan == 'Pending'){
-                  $badge = 'warning';
-                } else if($u->status_keputusan == 'Disetujui'){
-                  $badge = 'success';
-                } else if($u->status_keputusan == 'Ditolak'){
-                  $badge = 'danger';
-                }
+                // if($u->status_keputusan == 'Pending'){
+                //   $badge = 'warning';
+                // } else if($u->status_keputusan == 'Disetujui'){
+                //   $badge = 'success';
+                // } else if($u->status_keputusan == 'Ditolak'){
+                //   $badge = 'danger';
+                // }
               ?>
               <li class="list-group-item">Pertimbangan / Saran <b>{{$u->pertimbangan_saran}}</b></li>
               <li class="list-group-item">Dana Yang Disetujui <b><?=rupiah($u->dana_yang_disetujui);?></b></li>
-              <li class="list-group-item">Status <b><span class="badge bg-<?=$badge;?>">{{$u->status_keputusan}}</span></b></li>
+              <li class="list-group-item">Status <b><span class="badge bg-warning">{{$u->status_keputusan}}</span></b></li>
               <li class="list-group-item">Tanggal Pengajuan <b>{{$u->tanggal_pengajuan}}</b></li>
               <li class="list-group-item">Kegunaan <b>{{$u->kegunaan}}</b></li>
             </ul>

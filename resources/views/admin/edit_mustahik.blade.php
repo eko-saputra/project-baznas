@@ -8,7 +8,7 @@
     @csrf
     @foreach($mustahik as $u)
             <div class="row">
-                <div class="col-8">
+                <div class="col-lg-8 col-md-12 col-sm-12">
                     @if($errors->any())
                         @foreach($errors->all() as $err)
                             <p class="alert alert-danger">{{ $err }}</p>
@@ -93,7 +93,7 @@
                         <button class="btn btn-success" type="submit">SIMPAN DATA MUSTAHIK</button>
                     </div>
                 </div>
-                <div class="col-4">
+                <div class="col-lg-4 col-md-12 col-sm-12">
                     <div class="border p-3 text-center bg-light">
                         <div id="my_camera" class="border m-3 m-auto"></div>
                             <input type=button class="btn btn-success my-3" value="Take Snapshot" onClick="take_snapshot()">

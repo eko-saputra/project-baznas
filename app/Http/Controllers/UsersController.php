@@ -14,8 +14,7 @@ class UsersController extends Controller
         if (!Auth::user()) {
             return redirect()->intended('/login');
         } else {
-            $data['role'] = Auth::user()->role;
-            $data['name'] = Auth::user()->name;
+            $data['auth'] = Auth::user();
             $data['users'] = User::get();
 
             return view('admin/users', $data);
@@ -27,8 +26,7 @@ class UsersController extends Controller
         if (!Auth::user()) {
             return redirect()->intended('/login');
         } else {
-            $data['role'] = Auth::user()->role;
-            $data['name'] = Auth::user()->name;
+            $data['auth'] = Auth::user();
 
             return view('admin/tambah_user', $data);
         }
@@ -39,8 +37,7 @@ class UsersController extends Controller
         if (!Auth::user()) {
             return redirect()->intended('/login');
         } else {
-            $data['role'] = Auth::user()->role;
-            $data['name'] = Auth::user()->name;
+            $data['auth'] = Auth::user();
             $request->validate([
                 'nama' => 'required',
                 'username' => 'required',
@@ -66,8 +63,7 @@ class UsersController extends Controller
         if (!Auth::user()) {
             return redirect()->intended('/login');
         } else {
-            $data['role'] = Auth::user()->role;
-            $data['name'] = Auth::user()->name;
+            $data['auth'] = Auth::user();
             $data['users'] = User::where('user_id', $id)->get();
 
             return view('admin/edit_user', $data);
@@ -79,8 +75,7 @@ class UsersController extends Controller
         if (!Auth::user()) {
             return redirect()->intended('/login');
         } else {
-            $data['role'] = Auth::user()->role;
-            $data['name'] = Auth::user()->name;
+            $data['auth'] = Auth::user();
             $request->validate([
                 'nama' => 'required',
                 'username' => 'required',
@@ -117,8 +112,7 @@ class UsersController extends Controller
         if (!Auth::user()) {
             return redirect()->intended('/login');
         } else {
-            $data['role'] = Auth::user()->role;
-            $data['name'] = Auth::user()->name;
+            $data['auth'] = Auth::user();
 
             return view('admin/password', $data);
         }

@@ -5,6 +5,9 @@
 <hr>
 <h6 class="py-2 bg-dark text-muted text-center">Validasi Data <i>MUSTAHIK</i></h6>
 <div class="container my-3">
+    @if(session('success'))
+    <p class="alert alert-success">{{ session('success') }}</p>
+    @endif
     @foreach($mustahik as $u)
     <div class="">
         
@@ -27,7 +30,6 @@
                         <h6>Data Pemohon</h6>
                         <div class="card">
                             <ul class="list-group list-group-flush">
-                            <li class="list-group-item text-start"><i>No KK :</i> <b>{{$u->no_kartu_kk}}</b></li>
                             <li class="list-group-item text-start"><i>Nama :</i> <b>{{$u->nama_kepala_kk}}</b></li>
                             <li class="list-group-item text-start"><i>Jumlah Tanggungan :</i> <b>{{$u->jumlah_keluarga_tanggungan}}</b> Orang</li>
                             <li class="list-group-item text-start"><i>Pekerjaan :</i> <b>{{$u->pekerjaan}}</b></li>
@@ -54,7 +56,9 @@
                             <li class="list-group-item text-start"><i>Kel : </i> <b><?= strtr($u->kelurahan,"-"," ");?></b></li>
                             </ul>
                         </div>
-                        <h6 class="mt-3">Data Penerima</h6>
+                        </div>
+                        <div class="col-lg-6 col-md-12 col-sm-12 bg-light p-3">
+                            <h6>Data Penerima</h6>
                             <div class="card">
                                 <ul class="list-group list-group-flush">
                                 <li class="list-group-item text-start"><i>Nama :</i> <b>{{$u->nama_penerima}}</b></li>
@@ -62,65 +66,59 @@
                                 <li class="list-group-item text-start"><i>Alamat :</i> <b>{{$u->alamat}}</b></li>
                                 </ul>
                             </div>
-                        </div>
-                        <div class="col-lg-6 col-md-12 col-sm-12 bg-light p-3">
-                        <h6>Keputusan</h6>
-                            <div class="card">
+                        {{-- <h6>Keputusan</h6> --}}
+                            <div class="card mt-3">
                                 <ul class="list-group list-group-flush">
                                 <li class="list-group-item text-start"><i>Tanggal Pengajuan :</i> <b>{{$u->tanggal_pengajuan}}</b></li>
-                                <?php 
-                                    // if($u->status_keputusan == 'Pengajuan'){
-                                    //     $bg = 'warning';
-                                    // } else if($u->status_keputusan == 'Disetujui'){
-                                    //     $bg = 'success';
-                                    // } else if($u->status_keputusan == 'Ditolak'){
-                                    //     $bg = 'danger';
-                                    // }
-                                ?>
+                                <li class="list-group-item text-start"><i>Status :</i> <b class="badge bg-info p-2">Pleno</b></li>
 
                                 <?php 
-                                //membuat format rupiah dengan PHP
-                                //tutorial www.malasngoding.com
-                                
                                 function rupiah($angka){
-                                    
                                     $hasil_rupiah = "Rp " . number_format($angka,2,',','.');
                                     return $hasil_rupiah;
-                                
                                 }
                                 ?>
-                                <li class="list-group-item text-start"><i>Status Keputusan :</i> <b class="badge bg-warning">{{$u->status_keputusan}}</b></li>
-                                <li class="list-group-item text-start"><i>Pertimbangan/ Saran/ Usul :</i> <b>{{$u->pertimbangan_saran}}</b></li>
-                                <li class="list-group-item text-start"><i>Dana yang Disetuji :</i> <b><?= rupiah($u->dana_yang_disetujui);?></b></li>
-                                <li class="list-group-item text-start mb-3"><i>Kegunaan :</i> <b>{{$u->kegunaan}}</b></li>
                                 </ul>
                             </div>
-                            <div class="text-start mt-3">
-                           <?php 
-                           if($jum == 0) {
-                            ?>
-                            <button class="btn btn-success px-4" data-bs-toggle="modal" data-bs-target="#exampleModal">VALIDASI</button>
-                            <?php  
-                        } else {
-                            echo "<b class='text-muted'>Ket</b> : <b class='text-warning'>Anda sudah melakukan validasi!</b>";
-                        }
-                        ?>
+                            <?php 
+                            if($jum == 0) {
+                             ?>
+                             <button class="btn btn-success px-4 mt-3 text-start" data-bs-toggle="modal" data-bs-target="#exampleModal">VALIDASI</button>
+                             <?php  
+                         } else {
+                             echo "<b class='text-muted'>Ket</b> : <b class='text-warning'>Anda sudah melakukan validasi!</b>";
+                         }
+                         ?>
                         </div>
                         </div>
-                   </div>
+                    </div>
+                    <h6 class="mt-3 text-center bg-warning text-dark py-3">Dokumentasi Survey</h6>
+                        <div class="card">
+                            <ul class="list-group list-group-flush">
+                            @if(count($survey) > 0)
+                            <li class="list-group-item text-start">
+                            @foreach($survey as $s)
+                                <b>Dokumentasi</b>
+                                <hr>
+                                <img src="{{asset('storage/'.$s->photo)}}" width="100%">
+                                <blockquote class="text-muted mt-3">{{$s->keterangan}}</blockquote>
+                                @endforeach
+                            </li>
+                            @else
+                            <li class="list-group-item text-start"><b class="text-muted">Dokumentasi belum ada!</b></li>
+                            @endif
+                            </ul>
+                        </div>
                 </div>
             </div>
             
         </div>
         
-    </div>
     @endforeach
 </div>
 
-<!-- Button trigger modal -->
-  
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <form action="{{url('/simpan-keputusan')}}" method="POST">
         @csrf
         @foreach($mustahik as $u)
@@ -132,45 +130,38 @@
               </div>
               <div class="modal-body">
                 <input type="hidden" name="id" value="{{$u->mustahik_id}}">
-                <select name="keputusan" class="form-control">
+                <select name="keputusan" class="form-control" id='keputusan'>
                     <option value="">- Pilih Keputusan -</option>
-                    <option value="Disetujui" <?= $u->status_keputusan == 'Disetujui' ? 'selected' : ''?>>Disetujui</option>
+                    <option value="Pending" <?= $u->status_keputusan == 'Disetujui' ? 'selected' : ''?>>Layak untuk diproses</option>
                     <option value="Ditolak" <?= $u->status_keputusan == 'Ditolak' ? 'selected' : ''?>>Ditolak</option>
                 </select>
-                <div class="form-group my-3">
-                    <?php 
-                    if($u->pertimbangan_saran != null) {
-                        ?>
-                    Pertimbangan / Saran yang sudah ditetapkan <b>{{$u->pertimbangan_saran}}</b>
-                    <?php
-                    } else {
-                    ?>
-                    <textarea name="pertimbangan" class="form-control" cols="10" rows="4" placeholder="Pertimbangan / Saran / Usul"></textarea>
-                    <?php    
-                    }
-                    ?>
-                </div>
-                <div class="form-group">
-                    <?php 
-                    if($u->dana_yang_disetujui != null) {
-                        ?>
-                        Dana Yang Sudah disetujui <b><?=rupiah($u->dana_yang_disetujui);?></b>
-                        <?php
-                        } else {
-                        ?>
-                        
-                    <input type="text" class="form-control" name="dana" placeholder="Dana yang disetujui">
-                    <?php    
-                    }
-                    ?>
-                </div>
-               
+                <label id="title" class="mt-3"></label>
+                <div id="alasan"></div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">SIMPAN</button>
+                <button type="submit" class="btn btn-primary">PROSES</button>
             </div>
         </div>
     </div>
+        <script>
+            var alasan = document.getElementById("keputusan");
+            alasan.addEventListener("change", function(){
+                document.getElementById("alasan").innerHTML = '';
+                document.getElementById("title").innerHTML = '';
+                if(alasan.value == 'Ditolak'){
+                    displayAlasan();
+                }
+            });
+
+            function displayAlasan() {
+            document.getElementById("alasan").innerHTML = `
+
+            <textarea class='form-control'></textarea>
+            `;
+            
+            document.getElementById("title").innerHTML = `Pertimbangan / Saran / Alasan`;
+            }
+        </script>
     @endforeach
     </form>
   </div>

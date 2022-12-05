@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Mustahik;
 use App\Models\Validasi;
+use App\Models\Survey;
+use App\Models\PS;
 use Illuminate\Http\Request;
 
 
@@ -15,11 +17,22 @@ class MustahikController extends Controller
         if (!Auth::user()) {
             return redirect()->intended('/login');
         } else {
-            $data['role'] = Auth::user()->role;
-            $data['name'] = Auth::user()->name;
+            $data['auth'] = Auth::user();
             $data['mustahik'] = Mustahik::get();
 
             return view('admin/mustahik', $data);
+        }
+    }
+
+    public function data_pengajuan()
+    {
+        if (!Auth::user()) {
+            return redirect()->intended('/login');
+        } else {
+            $data['auth'] = Auth::user();
+            $data['mustahik'] = Mustahik::where('status_keputusan', 'Pengajuan')->get();
+
+            return view('admin/pengajuan', $data);
         }
     }
 
@@ -28,11 +41,39 @@ class MustahikController extends Controller
         if (!Auth::user()) {
             return redirect()->intended('/login');
         } else {
-            $data['role'] = Auth::user()->role;
-            $data['name'] = Auth::user()->name;
+            $data['auth'] = Auth::user();
             $data['mustahik'] = Mustahik::where('status_keputusan', 'Pending')->get();
 
             return view('admin/pending', $data);
+        }
+    }
+
+    public function data_survey()
+    {
+        if (!Auth::user()) {
+            return redirect()->intended('/login');
+        } else {
+            $data['auth'] = Auth::user();
+            $data['mustahik'] = Mustahik::where('status_keputusan', 'Survey')->get();
+            // foreach ($data['mustahik'] as $m) {
+            //     $data['survey'] = Survey::where('mustahik_id', $m->mustahik_id)->get();
+            //     echo count($data['survey']);
+            // }
+            // exit;
+            // echo count($data['mustahik']), exit;
+            return view('admin/survey', $data);
+        }
+    }
+
+    public function data_pleno()
+    {
+        if (!Auth::user()) {
+            return redirect()->intended('/login');
+        } else {
+            $data['auth'] = Auth::user();
+            $data['mustahik'] = Mustahik::where('status_keputusan', 'Pleno')->get();
+
+            return view('admin/pleno', $data);
         }
     }
 
@@ -41,8 +82,7 @@ class MustahikController extends Controller
         if (!Auth::user()) {
             return redirect()->intended('/login');
         } else {
-            $data['role'] = Auth::user()->role;
-            $data['name'] = Auth::user()->name;
+            $data['auth'] = Auth::user();
             $data['mustahik'] = Mustahik::where('status_keputusan', 'Disetujui')->get();
 
             return view('admin/disetujui', $data);
@@ -54,8 +94,7 @@ class MustahikController extends Controller
         if (!Auth::user()) {
             return redirect()->intended('/login');
         } else {
-            $data['role'] = Auth::user()->role;
-            $data['name'] = Auth::user()->name;
+            $data['auth'] = Auth::user();
             $data['mustahik'] = Mustahik::where('status_keputusan', 'Ditolak')->get();
 
             return view('admin/ditolak', $data);
@@ -67,8 +106,7 @@ class MustahikController extends Controller
         if (!Auth::user()) {
             return redirect()->intended('/login');
         } else {
-            $data['role'] = Auth::user()->role;
-            $data['name'] = Auth::user()->name;
+            $data['auth'] = Auth::user();
 
             return view('admin/tambah_mustahik', $data);
         }
@@ -79,8 +117,7 @@ class MustahikController extends Controller
         if (!Auth::user()) {
             return redirect()->intended('/login');
         } else {
-            $data['role'] = Auth::user()->role;
-            $data['name'] = Auth::user()->name;
+            $data['auth'] = Auth::user();
             $request->validate([
                 'no_kartu_kk' => 'required',
                 'nama_kepala_keluarga' => 'required',
@@ -127,7 +164,7 @@ class MustahikController extends Controller
                 'alamat' => $request->alamat,
                 'jenis_bantuan' => $request->jenis_bantuan,
                 'kegunaan' => $request->kegunaan,
-                'status_keputusan' => 'Pending',
+                'status_keputusan' => 'Pengajuan',
                 'tanggal_pengajuan' => date('Y-m-d H:i:s'),
                 'photo' => $fileName,
                 'updated_at' => date('Y-m-d H:i:s'),
@@ -136,7 +173,7 @@ class MustahikController extends Controller
 
             $mustahik->save();
 
-            return redirect()->intended('/mustahik')->with('success', 'Data mustahik berhasil ditambahkan!');
+            return redirect()->intended('/mustahik')->with('success', 'Data pengajuan mustahik berhasil ditambahkan!');
         }
     }
 
@@ -145,8 +182,7 @@ class MustahikController extends Controller
         if (!Auth::user()) {
             return redirect()->intended('/login');
         } else {
-            $data['role'] = Auth::user()->role;
-            $data['name'] = Auth::user()->name;
+            $data['auth'] = Auth::user();
             $data['mustahik'] = Mustahik::where('mustahik_id', $id)->get();
 
             return view('admin/edit_mustahik', $data);
@@ -158,8 +194,7 @@ class MustahikController extends Controller
         if (!Auth::user()) {
             return redirect()->intended('/login');
         } else {
-            $data['role'] = Auth::user()->role;
-            $data['name'] = Auth::user()->name;
+            $data['auth'] = Auth::user();
             $request->validate([
                 'no_kartu_kk' => 'required',
                 'nama_kepala_keluarga' => 'required',
@@ -242,15 +277,153 @@ class MustahikController extends Controller
         if (!Auth::user()) {
             return redirect()->intended('/login');
         } else {
-            $data['role'] = Auth::user()->role;
-            $data['name'] = Auth::user()->name;
+            $data['auth'] = Auth::user();
             $data['mustahik'] = Mustahik::where('mustahik_id', $id)->get();
-            // print($data['mustahik'][0]->mustahik_id);
-            // exit;
             $data['validasi'] = Validasi::where('mustahik_id', $data['mustahik'][0]->mustahik_id)->where('user_id', Auth::user()->user_id)->get();
             $data['jum'] = count($data['validasi']);
 
             return view('admin/detail-proses', $data);
+        }
+    }
+
+    public function detail_proses_pengajuan($id)
+    {
+        if (!Auth::user()) {
+            return redirect()->intended('/login');
+        } else {
+            $data['auth'] = Auth::user();
+            $data['mustahik'] = Mustahik::where('mustahik_id', $id)->get();
+            $data['validasi'] = Validasi::where('mustahik_id', $data['mustahik'][0]->mustahik_id)->where('user_id', Auth::user()->user_id)->where('status', 'Survey')->get();
+            $data['jum'] = count($data['validasi']);
+
+            return view('admin/detail-proses-pengajuan', $data);
+        }
+    }
+
+    public function detail_proses_survey($id)
+    {
+        if (!Auth::user()) {
+            return redirect()->intended('/login');
+        } else {
+            $data['auth'] = Auth::user();
+            $data['mustahik'] = Mustahik::where('mustahik_id', $id)->get();
+            $data['validasi'] = Validasi::where('mustahik_id', $data['mustahik'][0]->mustahik_id)->where('user_id', Auth::user()->user_id)->where('status', 'Pleno')->get();
+            $data['jum'] = count($data['validasi']);
+            $data['survey'] = Survey::where('mustahik_id', $id)
+                ->leftJoin('tb_user', 'tb_survey.user_id', '=', 'tb_user.user_id')
+                ->get();
+
+            return view('admin/detail-proses-survey', $data);
+        }
+    }
+
+    public function detail_proses_pleno($id)
+    {
+        if (!Auth::user()) {
+            return redirect()->intended('/login');
+        } else {
+            $data['auth'] = Auth::user();
+            $data['mustahik'] = Mustahik::where('mustahik_id', $id)->get();
+            $data['validasi'] = Validasi::where('mustahik_id', $data['mustahik'][0]->mustahik_id)->where('user_id', Auth::user()->user_id)->where('status', 'Pending')->get();
+            $data['jum'] = count($data['validasi']);
+            $data['survey'] = Survey::where('mustahik_id', $id)
+                ->leftJoin('tb_user', 'tb_survey.user_id', '=', 'tb_user.user_id')
+                ->get();
+
+            return view('admin/detail-proses-pleno', $data);
+        }
+    }
+
+    public function detail_proses_pending($id)
+    {
+        if (!Auth::user()) {
+            return redirect()->intended('/login');
+        } else {
+            $data['auth'] = Auth::user();
+            $data['mustahik'] = Mustahik::where('mustahik_id', $id)->get();
+            $data['validasi'] = Validasi::where('mustahik_id', $data['mustahik'][0]->mustahik_id)->where('user_id', Auth::user()->user_id)->where('status', 'Disetujui')->get();
+            $data['jum'] = count($data['validasi']);
+            $data['survey'] = Survey::where('mustahik_id', $id)
+                ->leftJoin('tb_user', 'tb_survey.user_id', '=', 'tb_user.user_id')
+                ->get();
+
+            return view('admin/detail-proses-pending', $data);
+        }
+    }
+
+    public function dokumentasi_survey($id)
+    {
+        if (!Auth::user()) {
+            return redirect()->intended('/login');
+        } else {
+            $data['auth'] = Auth::user();
+            $data['mustahik'] = Mustahik::where('mustahik_id', $id)->get();
+            $data['survey'] = Survey::where('mustahik_id', $id)
+                ->leftJoin('tb_user', 'tb_survey.user_id', '=', 'tb_user.user_id')
+                ->get();
+
+            // $cek_petugas = PS::where('survey_id', $data['survey'][0]->survey_id)->get();
+            // $data['cek_petugas'] = count($cek_petugas);
+
+            return view('admin/dokumentasi-survey', $data);
+        }
+    }
+
+    public function simpan_survey(Request $request)
+    {
+        if (!Auth::user()) {
+            return redirect()->intended('/login');
+        } else {
+            $data['auth'] = Auth::user();
+
+            $request->validate([
+                'petugas_survey' => 'required',
+                'photo' => 'required|image|mimes:png,jpg,jpeg,webp|max:4096',
+                'keterangan' => 'required',
+            ]);
+
+            $imageName = $request->file('photo')->store('dokumentasi', 'public');
+
+            $survey = new Survey([
+                'user_id' => $request->user_id,
+                'mustahik_id' => $request->mustahik_id,
+                'photo' => $imageName,
+                'keterangan' => $request->keterangan,
+                'petugas_survey' => $request->petugas_survey,
+            ]);
+
+            $survey->save();
+
+            // $cek = Survey::where('user_id', $request->user_id)->where('mustahik_id', $request->mustahik_id)->get();
+
+            // if (count($cek) > 0) {
+            //     $petugas = new PS([
+            //         'survey_id' => $cek[0]->survey_id,
+            //         'nama_PS' => $request->petugas_survey,
+            //     ]);
+
+            //     $petugas->save();
+            // }
+
+            return redirect()->intended('/dokumentasi-survey/' . $request->mustahik_id)->with('success', 'Data dokumentasi survey ditambahkan!');
+        }
+    }
+
+    public function hapus_photo_survey($survey_id, $mustahik_id)
+    {
+        if (!Auth::user()) {
+            return redirect()->intended('/login');
+        } else {
+            $data['auth'] = Auth::user();
+
+            $cek = Survey::where('survey_id', $survey_id)->get();
+
+            if (file_exists(public_path() . '/storage/' . $cek[0]->photo)) {
+                unlink(public_path() . '/storage/' . $cek[0]->photo);
+            }
+
+            Survey::where('survey_id', $survey_id)->delete();
+            return redirect()->to('/dokumentasi-survey/' . $mustahik_id)->with('success', 'Data user berhasil dihapus!');
         }
     }
 
@@ -259,14 +432,35 @@ class MustahikController extends Controller
         if (!Auth::user()) {
             return redirect()->intended('/login');
         } else {
-            $data['role'] = Auth::user()->role;
-            $data['name'] = Auth::user()->name;
+            $data['auth'] = Auth::user();
 
-            if ($request->keputusan == 'Disetujui') {
-                // $request->validate([
-                //     'dana' => 'required',
-                //     'pertimbangan' => 'required',
-                // ]);
+            // if ($request->keputusan == 'Disetujui') {
+
+            //     $validasi = new Validasi([
+            //         'user_id' => Auth::user()->user_id,
+            //         'mustahik_id' => $request->id,
+            //         'status' => $request->keputusan,
+            //     ]);
+
+            //     $validasi->save();
+
+            //     $jm = Validasi::where('mustahik_id', $request->id)->where('status', 'Disetujui')->get();
+
+            //     if (count($jm) == 3) {
+            //         Mustahik::where('mustahik_id', $request->id)->update([
+            //             'status_keputusan' => 'Disetujui',
+            //         ]);
+            //     } else {
+            //         $cek = Mustahik::where('mustahik_id', $request->id)->get();
+            //         if ($cek[0]->dana_yang_disetujui == null) {
+            //             Mustahik::where('mustahik_id', $request->id)->update([
+            //                 'pertimbangan_saran' => $request->pertimbangan,
+            //                 'dana_yang_disetujui' => $request->dana,
+            //             ]);
+            //         }
+            //     }
+            // } else 
+            if ($request->keputusan == 'Survey') {
 
                 $validasi = new Validasi([
                     'user_id' => Auth::user()->user_id,
@@ -276,58 +470,84 @@ class MustahikController extends Controller
 
                 $validasi->save();
 
-                $jm = Validasi::where('mustahik_id', $request->id)->where('status', 'Disetujui')->get();
+                $jm = Validasi::where('mustahik_id', $request->id)->where('status', 'Survey')->get();
 
-                if (count($jm) == 3) {
-                    // echo "ok";
-                    // exit;
+                if (count($jm) == 2) {
                     Mustahik::where('mustahik_id', $request->id)->update([
-                        'status_keputusan' => 'Disetujui',
-                        // 'pertimbangan_saran' => $request->pertimbangan,
-                        // 'dana_yang_disetujui' => $request->dana,
+                        'status_keputusan' => 'Survey',
                     ]);
-                } else {
-                    // echo "gak";
-                    $cek = Mustahik::where('mustahik_id', $request->id)->get();
-                    // print($cek[0]->dana_yang_disetujui);
-                    // exit;
-                    if ($cek[0]->dana_yang_disetujui == null) {
-                        Mustahik::where('mustahik_id', $request->id)->update([
-                            'pertimbangan_saran' => $request->pertimbangan,
-                            'dana_yang_disetujui' => $request->dana,
-                        ]);
-                    }
                 }
-            } else if ($request->keputusan == 'Ditolak') {
-                $request->validate([
-                    'pertimbangan' => 'required',
+                // else {
+                //     $cek = Mustahik::where('mustahik_id', $request->id)->get();
+                //     if ($cek[0]->dana_yang_disetujui == null) {
+                //         Mustahik::where('mustahik_id', $request->id)->update([
+                //             'pertimbangan_saran' => $request->pertimbangan,
+                //             'dana_yang_disetujui' => $request->dana,
+                //         ]);
+                //     }
+                // }
+                return redirect()->intended('/pengajuan')->with('success', 'Data mustahik berhasil diproses!');
+            } else if ($request->keputusan == 'Pleno') {
+
+                $validasi = new Validasi([
+                    'user_id' => Auth::user()->user_id,
+                    'mustahik_id' => $request->id,
+                    'status' => $request->keputusan,
                 ]);
 
-                // $validasi = new Validasi([
-                //     'user_id' => Auth::user()->user_id,
-                //     'mustahik_id' => $request->id,
-                //     'status' => $request->keputusan,
-                // ]);
+                $validasi->save();
 
-                // $validasi->save();
+                $jm = Validasi::where('mustahik_id', $request->id)->where('status', 'Pleno')->get();
 
-                // $jm = Validasi::where('mustahik_id',$request->id)->where('status','Ditolak')->get();
+                if (count($jm) == 2) {
+                    Mustahik::where('mustahik_id', $request->id)->update([
+                        'status_keputusan' => 'Pleno',
+                    ]);
+                }
+                // else {
+                //     $cek = Mustahik::where('mustahik_id', $request->id)->get();
+                //     if ($cek[0]->dana_yang_disetujui == null) {
+                //         Mustahik::where('mustahik_id', $request->id)->update([
+                //             'pertimbangan_saran' => $request->pertimbangan,
+                //             'dana_yang_disetujui' => $request->dana,
+                //         ]);
+                //     }
+                // }
+                return redirect()->intended('/pengajuan')->with('success', 'Data mustahik berhasil diproses!');
+            } else if ($request->keputusan == 'Pending') {
 
-                // if(count($jm) == 5){
+                $validasi = new Validasi([
+                    'user_id' => Auth::user()->user_id,
+                    'mustahik_id' => $request->id,
+                    'status' => $request->keputusan,
+                ]);
+
+                $validasi->save();
+
+                $jm = Validasi::where('mustahik_id', $request->id)->where('status', 'Pleno')->get();
+
+                if (count($jm) == 2) {
+                    Mustahik::where('mustahik_id', $request->id)->update([
+                        'status_keputusan' => 'Pending',
+                    ]);
+                }
+                // else {
+                //     $cek = Mustahik::where('mustahik_id', $request->id)->get();
+                //     if ($cek[0]->dana_yang_disetujui == null) {
+                //         Mustahik::where('mustahik_id', $request->id)->update([
+                //             'pertimbangan_saran' => $request->pertimbangan,
+                //             'dana_yang_disetujui' => $request->dana,
+                //         ]);
+                //     }
+                // }
+                return redirect()->intended('/pengajuan')->with('success', 'Data mustahik berhasil diproses!');
+            } else if ($request->keputusan == 'Ditolak') {
                 Mustahik::where('mustahik_id', $request->id)->update([
                     'status_keputusan' => 'Ditolak',
                     'pertimbangan_saran' => $request->pertimbangan,
-                    'dana_yang_disetujui' => $request->dana,
                 ]);
-                // } else {
-                //     Mustahik::where('mustahik_id', $request->id)->update([
-                //         'pertimbangan_saran' => $request->pertimbangan,
-                //         'dana_yang_disetujui' => $request->dana,
-                //     ]);
-                // }
+                return redirect()->intended('/ditolak')->with('success', 'Data mustahik berhasil diproses!');
             }
-
-            return redirect()->intended('/pending')->with('success', 'Data mustahik berhasil diproses!');
         }
     }
 }

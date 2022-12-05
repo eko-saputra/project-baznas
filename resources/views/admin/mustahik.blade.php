@@ -32,8 +32,14 @@
         <td>{{$u->nama_penerima}}</td>
         <td>Dumai {{$u->jenis_bantuan}}</td>
         <?php 
-                if($u->status_keputusan == 'Pending'){
+                if($u->status_keputusan == 'Pengajuan'){
                   $badge = 'warning';
+                } else if($u->status_keputusan == 'Survey'){
+                  $badge = 'primary';
+                } else if($u->status_keputusan == 'Pleno'){
+                  $badge = 'info';
+                } else if($u->status_keputusan == 'Pending'){
+                  $badge = 'secondary';
                 } else if($u->status_keputusan == 'Disetujui'){
                   $badge = 'success';
                 } else if($u->status_keputusan == 'Ditolak'){
@@ -43,9 +49,21 @@
         <td><span class="badge bg-{{$badge}}">{{$u->status_keputusan}}</span></td>
         <td>{{$u->tanggal_pengajuan}}</td>
         <td>
-            <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal{{$u->mustahik_id}}">Detail</button> 
-            <a href="{{url('/edit_mustahik/'.$u->mustahik_id)}}" class="btn btn-primary">Edit</a> 
-            <a href="{{url('/hapus_mustahik/'.$u->mustahik_id)}}" class="btn btn-danger" onclick="return confirm('Apakah anda yakin ingin menghapus data ini?');">Hapus</a> 
+            <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal{{$u->mustahik_id}}">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-ticket-detailed-fill" viewBox="0 0 16 16">
+                <path d="M0 4.5A1.5 1.5 0 0 1 1.5 3h13A1.5 1.5 0 0 1 16 4.5V6a.5.5 0 0 1-.5.5 1.5 1.5 0 0 0 0 3 .5.5 0 0 1 .5.5v1.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 11.5V10a.5.5 0 0 1 .5-.5 1.5 1.5 0 1 0 0-3A.5.5 0 0 1 0 6V4.5Zm4 1a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 0-1h-7a.5.5 0 0 0-.5.5Zm0 5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 0-1h-7a.5.5 0 0 0-.5.5ZM4 8a1 1 0 0 0 1 1h6a1 1 0 1 0 0-2H5a1 1 0 0 0-1 1Z"/>
+              </svg>
+            </button> 
+            <a href="{{url('/edit_mustahik/'.$u->mustahik_id)}}" class="btn btn-warning">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen-fill" viewBox="0 0 16 16">
+                <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001z"/>
+              </svg>
+            </a> 
+            <a href="{{url('/hapus_mustahik/'.$u->mustahik_id)}}" class="btn btn-warning" onclick="return confirm('Apakah anda yakin ingin menghapus data ini?');">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+              </svg>
+            </a> 
         </td>
     </tr>
     @endforeach
@@ -103,8 +121,10 @@
                   $badge = 'danger';
                 }
               ?>
+              @if($u->status_keputusan == 'Disetujui')
               <li class="list-group-item">Pertimbangan / Saran <b>{{$u->pertimbangan_saran}}</b></li>
               <li class="list-group-item">Dana Yang Disetujui <b>{{$u->dana_yang_disetujui}}</b></li>
+              @endif
               <li class="list-group-item">Status <b><span class="badge bg-<?=$badge;?>">{{$u->status_keputusan}}</span></b></li>
               <li class="list-group-item">Tanggal Pengajuan <b>{{$u->tanggal_pengajuan}}</b></li>
               <li class="list-group-item">Kegunaan <b>{{$u->kegunaan}}</b></li>

@@ -6,7 +6,8 @@
     <title>BAZNAS KOTA DUMAI</title>
     <link href="{{asset('dist/css/bootstrap.min.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/fontawesome.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.css" />
+    {{-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.css" /> --}}
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/dt-1.13.1/b-2.3.3/fc-4.2.1/r-2.4.0/datatables.min.css"/>
     <style>
         .bg1 {
             background-color: #075332;
@@ -44,10 +45,10 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-              @if($role)
+              @if($auth)
               <li class="nav-item">
                 <span class="nav-link">
-                        Welcome <b>{{$name}}</b>
+                        Welcome <b>{{$auth->name}}</b>
                     </span>
                 </li>
                 <li class="nav-item">
@@ -69,7 +70,7 @@
         <div class="container bg-warning">&nbsp;</div>
         <div class="col-lg-2 col-md-12 bg-success">
             <img src="{{asset('images/login-copy.webp')}}" width="100%">
-            @if($role == 'pimpinan')
+            @if($auth->role == 'pimpinan' && $auth->jabatan == 'ketua')
             <div class="m-3 text-center">
               <a href="{{url('/users')}}" class="btn btn-warning px-3 button1">
                 <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
@@ -78,9 +79,41 @@
               </a>
             </div>
             <p class="text-light text-center">Data Users</p>
+            @endif
+
+            @if($auth->role == 'pimpinan' && ($auth->jabatan == 'ketua' || $auth->jabatan == 'waka'))
+            <div class="m-3 text-center">
+              <a href="{{url('/pengajuan')}}" class="btn btn-light px-3 button2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-bookmarks-fill" viewBox="0 0 16 16">
+                  <path d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5V4z"/>
+                  <path d="M4.268 1A2 2 0 0 1 6 0h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L13 13.768V2a1 1 0 0 0-1-1H4.268z"/>
+                </svg>
+              </a>
+            </div>
+            <p class="text-light text-center">Pengajuan</p>
 
             <div class="m-3 text-center">
-              <a href="{{url('/pending')}}" class="btn btn-light px-3 button2">
+              <a href="{{url('/survey')}}" class="btn btn-light px-3 button3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-bookmark-plus-fill" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5zm6.5-11a.5.5 0 0 0-1 0V6H6a.5.5 0 0 0 0 1h1.5v1.5a.5.5 0 0 0 1 0V7H10a.5.5 0 0 0 0-1H8.5V4.5z"/>
+                </svg>
+              </a>
+            </div>
+            <p class="text-light text-center">Survey</p>
+            @endif
+
+            @if($auth->role == 'pimpinan')
+            <div class="m-3 text-center">
+              <a href="{{url('/pleno')}}" class="btn btn-light px-3 button4">
+                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-bookmark-heart-fill" viewBox="0 0 16 16">
+                  <path d="M2 15.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v13.5zM8 4.41c1.387-1.425 4.854 1.07 0 4.277C3.146 5.48 6.613 2.986 8 4.412z"/>
+                </svg>
+              </a>
+            </div>
+            <p class="text-light text-center">Pleno</p>
+
+            <div class="m-3 text-center">
+              <a href="{{url('/pending')}}" class="btn btn-light px-3 button5">
                 <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-bookmark-dash-fill" viewBox="0 0 16 16">
                   <path fill-rule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5zM6 6a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1H6z"/>
                 </svg>
@@ -89,7 +122,7 @@
             <p class="text-light text-center">Pending</p>
 
             <div class="m-3 text-center">
-              <a href="{{url('/disetujui')}}" class="btn btn-light px-3 button3">
+              <a href="{{url('/disetujui')}}" class="btn btn-light px-3 button6">
                 <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-bookmark-check-fill" viewBox="0 0 16 16">
                   <path fill-rule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5zm8.854-9.646a.5.5 0 0 0-.708-.708L7.5 7.793 6.354 6.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3z"/>
                 </svg>
@@ -98,7 +131,7 @@
             <p class="text-light text-center">Disetujui</p>
 
             <div class="m-3 text-center">
-              <a href="{{url('/ditolak')}}" class="btn btn-light px-3 button4">
+              <a href="{{url('/ditolak')}}" class="btn btn-light px-3 button7">
                 <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-bookmark-x-fill" viewBox="0 0 16 16">
                   <path fill-rule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5zM6.854 5.146a.5.5 0 1 0-.708.708L7.293 7 6.146 8.146a.5.5 0 1 0 .708.708L8 7.707l1.146 1.147a.5.5 0 1 0 .708-.708L8.707 7l1.147-1.146a.5.5 0 0 0-.708-.708L8 6.293 6.854 5.146z"/>
                 </svg>
@@ -107,15 +140,25 @@
             <p class="text-light text-center">Ditolak</p>
             @else
             <div class="m-3 text-center">
-              <a href="{{url('/mustahik')}}" class="btn btn-light px-3 button4">
+              <a href="{{url('/mustahik')}}" class="btn btn-light px-3 button8">
                 <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-bookmark-plus-fill" viewBox="0 0 16 16">
                   <path fill-rule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5zm6.5-11a.5.5 0 0 0-1 0V6H6a.5.5 0 0 0 0 1h1.5v1.5a.5.5 0 0 0 1 0V7H10a.5.5 0 0 0 0-1H8.5V4.5z"/>
                 </svg>
               </a>
             </div>
             <p class="text-light text-center">Data Mustahik</p>
+
             <div class="m-3 text-center">
-              <a href="{{url('/password')}}" class="btn btn-light px-3 button5">
+              <a href="{{url('/survey')}}" class="btn btn-light px-3 button3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-bookmark-plus-fill" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5zm6.5-11a.5.5 0 0 0-1 0V6H6a.5.5 0 0 0 0 1h1.5v1.5a.5.5 0 0 0 1 0V7H10a.5.5 0 0 0 0-1H8.5V4.5z"/>
+                </svg>
+              </a>
+            </div>
+            <p class="text-light text-center">Dokumentasi Survey</p>
+
+            <div class="m-3 text-center">
+              <a href="{{url('/password')}}" class="btn btn-light px-3 button9">
                 <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                   <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                   <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
@@ -140,7 +183,7 @@
                 <div class="row">
                 <div class="col text-center">
                     <img src="{{asset('images/logo.png')}}" width="50">
-                    <h5>BAZNAS</h5>
+                    <h5>BAZNAS KOTA DUMAI</h5>
                     <h6 class="text-muted">Badan Amil Zakat Nasional</h6>
                     <p class="text-muted">Copyright &copy; Baznas Kota Dumai</p>
                   </div>
@@ -151,19 +194,27 @@
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
     <script src="{{asset('dist/js/bootstrap.bundle.min.js')}}"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.js"></script>
+    
+    {{-- <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.js"></script> --}}
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.13.1/b-2.3.3/fc-4.2.1/r-2.4.0/datatables.min.js"></script>
     <script>
       $(document).ready( function () {
-    $('#mustahik').DataTable();
-} );
+      $('#mustahik').DataTable({
+        responsive: true
+      });
+      } );
 
-$(document).ready( function () {
-    $('#users').DataTable();
-} );
+      $(document).ready( function () {
+          $('#users').DataTable({
+            responsive: true
+          });
+      } );
 
-$(document).ready( function () {
-    $('#pending').DataTable();
-} );
+      $(document).ready( function () {
+          $('#pending').DataTable({
+            responsive: true
+          });
+      } );
     </script>
     <script src="{{asset('dist/js/tilt.js')}}"></script>
     <script>
@@ -191,7 +242,7 @@ window.onscroll = () => {
   scroll();
 };
 
-	for(var i=1;i<=5;i++){
+	for(var i=1;i<=9;i++){
     VanillaTilt.init(document.querySelector(".button"+i), {
 		max: 25,
 		speed: 400
