@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\Mustahik;
+use App\Models\Penyalur;
 use App\Models\Validasi;
 use App\Models\Survey;
 use App\Models\PS;
@@ -62,6 +63,23 @@ class MustahikController extends Controller
             // exit;
             // echo count($data['mustahik']), exit;
             return view('admin/survey', $data);
+        }
+    }
+
+    public function data_penyaluran()
+    {
+        if (!Auth::user()) {
+            return redirect()->intended('/login');
+        } else {
+            $data['auth'] = Auth::user();
+            $data['mustahik'] = Mustahik::where('status_keputusan', 'Disetujui')->get();
+            // foreach ($data['mustahik'] as $m) {
+            //     $data['survey'] = Survey::where('mustahik_id', $m->mustahik_id)->get();
+            //     echo count($data['survey']);
+            // }
+            // exit;
+            // echo count($data['mustahik']), exit;
+            return view('admin/penyaluran', $data);
         }
     }
 
@@ -422,6 +440,24 @@ class MustahikController extends Controller
         }
     }
 
+    public function dokumentasi_penyaluran($id)
+    {
+        if (!Auth::user()) {
+            return redirect()->intended('/login');
+        } else {
+            $data['auth'] = Auth::user();
+            $data['mustahik'] = Mustahik::where('mustahik_id', $id)->get();
+            $data['penyalur'] = Penyalur::where('mustahik_id', $id)
+                ->leftJoin('tb_user', 'tb_penyaluran.user_id', '=', 'tb_user.user_id')
+                ->get();
+
+            // $cek_petugas = PS::where('survey_id', $data['survey'][0]->survey_id)->get();
+            // $data['cek_petugas'] = count($cek_petugas);
+
+            return view('admin/dokumentasi-penyaluran', $data);
+        }
+    }
+
     public function simpan_survey(Request $request)
     {
         if (!Auth::user()) {
@@ -476,7 +512,58 @@ class MustahikController extends Controller
             }
 
             Survey::where('survey_id', $survey_id)->delete();
-            return redirect()->to('/dokumentasi-survey/' . $mustahik_id)->with('success', 'Data user berhasil dihapus!');
+            return redirect()->to('/dokumentasi-survey/' . $mustahik_id)->with('success', 'Data dokumentasi survey berhasil dihapus!');
+        }
+    }
+
+    public function simpan_penyaluran(Request $request)
+    {
+        if (!Auth::user()) {
+            return redirect()->intended('/login');
+        } else {
+            $data['auth'] = Auth::user();
+
+            $request->validate([
+                'petugas_penyalur' => 'required',
+                'photo' => 'required|image|mimes:png,jpg,jpeg,webp|max:4096',
+                'keterangan' => 'required',
+            ]);
+
+            $imageName = $request->file('photo')->store('dokumentasi', 'public');
+
+            $survey = new Penyalur([
+                'user_id' => $request->user_id,
+                'mustahik_id' => $request->mustahik_id,
+                'photo' => $imageName,
+                'keterangan' => $request->keterangan,
+                'petugas_penyalur' => $request->petugas_penyalur,
+            ]);
+
+            Mustahik::where('mustahik_id', $request->mustahik_id)->update([
+                'status_keputusan' => 'Disalurkan',
+            ]);
+
+            $survey->save();
+
+            return redirect()->intended('/dokumentasi-penyaluran/' . $request->mustahik_id)->with('success', 'Data dokumentasi penyaluran ditambahkan!');
+        }
+    }
+
+    public function hapus_photo_penyalur($penyalur_id, $mustahik_id)
+    {
+        if (!Auth::user()) {
+            return redirect()->intended('/login');
+        } else {
+            $data['auth'] = Auth::user();
+
+            $cek = Penyalur::where('penyaluran_id', $penyalur_id)->get();
+
+            if (file_exists(public_path() . '/storage/' . $cek[0]->photo)) {
+                unlink(public_path() . '/storage/' . $cek[0]->photo);
+            }
+
+            Penyalur::where('penyaluran_id', $penyalur_id)->delete();
+            return redirect()->to('/dokumentasi-penyaluran/' . $mustahik_id)->with('success', 'Data dokumentasi penyaluran berhasil dihapus!');
         }
     }
 

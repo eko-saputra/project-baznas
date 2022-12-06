@@ -43,6 +43,8 @@
                                         $bg = 'info';
                                     } else if($u->status_keputusan == 'Ditolak'){
                                         $bg = 'danger';
+                                    } else if($u->status_keputusan == 'Disalurkan'){
+                                        $bg = 'success';
                                     }
                                 ?>
                 <td>
@@ -124,6 +126,8 @@
                                         $bg = 'info';
                                     } else if($u->status_keputusan == 'Ditolak'){
                                         $bg = 'danger';
+                                    } else if($u->status_keputusan == 'Disalurkan'){
+                                        $bg = 'success';
                                     }
                                 ?>
               <li class="list-group-item">Pertimbangan / Saran <b>{{$u->pertimbangan_saran}}</b></li>

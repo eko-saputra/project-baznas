@@ -30,6 +30,7 @@ Route::get('/users', [UsersController::class, 'data_user']);
 Route::get('/mustahik', [MustahikController::class, 'data_mustahik']);
 Route::get('/pengajuan', [MustahikController::class, 'data_pengajuan']);
 Route::get('/survey', [MustahikController::class, 'data_survey']);
+Route::get('/penyaluran', [MustahikController::class, 'data_penyaluran']);
 Route::get('/pleno', [MustahikController::class, 'data_pleno']);
 Route::get('/pending', [MustahikController::class, 'data_pending']);
 Route::get('/disetujui', [MustahikController::class, 'data_disetujui']);
@@ -57,9 +58,12 @@ Route::get('/detail-proses-survey/{id}', [MustahikController::class, 'detail_pro
 Route::get('/detail-proses-pleno/{id}', [MustahikController::class, 'detail_proses_pleno']);
 Route::get('/detail-proses-pending/{id}', [MustahikController::class, 'detail_proses_pending']);
 Route::get('/dokumentasi-survey/{id}', [MustahikController::class, 'dokumentasi_survey']);
+Route::get('/dokumentasi-penyaluran/{id}', [MustahikController::class, 'dokumentasi_penyaluran']);
 Route::get('/hapus-photo-survey/{id}/{idm}', [MustahikController::class, 'hapus_photo_survey']);
+Route::get('/hapus-photo-penyalur/{id}/{idm}', [MustahikController::class, 'hapus_photo_penyalur']);
 
 Route::post('/simpan-survey', [MustahikController::class, 'simpan_survey']);
+Route::post('/simpan-penyaluran', [MustahikController::class, 'simpan_penyaluran']);
 
 Route::post('/simpan-keputusan', [MustahikController::class, 'simpan_keputusan']);
 
