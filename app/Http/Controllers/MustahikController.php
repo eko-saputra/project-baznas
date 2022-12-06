@@ -649,8 +649,6 @@ class MustahikController extends Controller
                 if (count($jm) == 3) {
                     Mustahik::where('mustahik_id', $request->id)->update([
                         'status_keputusan' => 'Disetujui',
-                        'pertimbangan_saran' => $request->pertimbangan,
-                        'dana_yang_disetujui' => $request->dana,
                     ]);
                 } else {
                     $cek = Mustahik::where('mustahik_id', $request->id)->get();

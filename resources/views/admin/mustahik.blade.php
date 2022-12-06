@@ -49,6 +49,8 @@
                   $badge = 'success';
                 } else if($u->status_keputusan == 'Ditolak'){
                   $badge = 'danger';
+                } else if($u->status_keputusan == 'Disalurkan'){
+                  $badge = 'success';
                 }
               ?>
         <td><span class="badge bg-{{$badge}}">{{$u->status_keputusan}}</span></td>
@@ -118,12 +120,20 @@
               <li class="list-group-item">Kec :  <b><?=$kec;?></b> | Kel:  <b><?= strtr($u->kelurahan,"-"," ");?></b> | <b>{{$u->alamat}}</b></li>
               <li class="list-group-item">Jenis Bantuan <b>Dumai {{$u->jenis_bantuan}}</b></li>
               <?php 
-                if($u->status_keputusan == 'Pending'){
+                if($u->status_keputusan == 'Pengajuan'){
                   $badge = 'warning';
+                } else if($u->status_keputusan == 'Survey'){
+                  $badge = 'primary';
+                } else if($u->status_keputusan == 'Pleno'){
+                  $badge = 'info';
+                } else if($u->status_keputusan == 'Pending'){
+                  $badge = 'secondary';
                 } else if($u->status_keputusan == 'Disetujui'){
                   $badge = 'success';
                 } else if($u->status_keputusan == 'Ditolak'){
                   $badge = 'danger';
+                } else if($u->status_keputusan == 'Disalurkan'){
+                  $badge = 'success';
                 }
               ?>
               @if($u->status_keputusan == 'Disetujui')
