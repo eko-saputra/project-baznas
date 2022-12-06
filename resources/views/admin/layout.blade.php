@@ -186,6 +186,7 @@
                     <h5>BAZNAS KOTA DUMAI</h5>
                     <h6 class="text-muted">Badan Amil Zakat Nasional</h6>
                     <p class="text-muted">Copyright &copy; Baznas Kota Dumai</p>
+                    <p class="text-muted">Ver. 1.0</p>
                   </div>
                 </div>
             </div>

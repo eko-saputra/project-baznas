@@ -22,7 +22,18 @@
                 <div class="text-center mt-3">
                     <span class="bg-secondary p-1 px-4 rounded text-white">No Kartu Keluarga</span>
                     <h5 class="mt-2 mb-0"><b>{{$u->no_kartu_kk}}</b></h5>
-                    
+                    <div class="row mt-3 shadow">
+                        <div class="col bg-success p-2 text-light">PENGAJUAN <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-check-all" viewBox="0 0 16 16">
+                            <path d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992a.252.252 0 0 1 .02-.022zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486-.943 1.179z"/>
+                          </svg></div>
+                        <div class="col bg-success p-2 text-light">SURVEY <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-check-all" viewBox="0 0 16 16">
+                            <path d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992a.252.252 0 0 1 .02-.022zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486-.943 1.179z"/>
+                          </svg></div>
+                        <div class="col bg-success p-2 text-light">PLENO <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-check-all" viewBox="0 0 16 16">
+                            <path d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992a.252.252 0 0 1 .02-.022zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486-.943 1.179z"/>
+                          </svg></div>
+                        <div class="col bg-secondary p-2 text-light">?</div>
+                    </div>
                     <hr>
                     
                    <div class="row">
@@ -82,12 +93,17 @@
                             </div>
                             <?php 
                             if($jum == 0) {
-                             ?>
-                             <button class="btn btn-success px-4 mt-3 text-start" data-bs-toggle="modal" data-bs-target="#exampleModal">VALIDASI</button>
-                             <?php  
-                         } else {
-                             echo "<b class='text-muted'>Ket</b> : <b class='text-warning'>Anda sudah melakukan validasi!</b>";
-                         }
+                            ?>
+                            <div class="mt-3 text-start">
+                                <button class="btn btn-success px-4" data-bs-toggle="modal" data-bs-target="#exampleModal">VALIDASI</button>
+                            </div>
+                            <?php  
+                        } else {
+                            echo "<div class='text-start mt-3'>
+                                <b class='text-muted'>Ket</b> : <b class='text-warning'>Anda sudah melakukan validasi</b> <b class=
+                                'text-success'>".$validasi[0]->status."!</b>
+                                </div>";
+                        }
                          ?>
                         </div>
                         </div>
@@ -130,40 +146,67 @@
               </div>
               <div class="modal-body">
                 <input type="hidden" name="id" value="{{$u->mustahik_id}}">
-                <select name="keputusan" class="form-control" id='keputusan'>
+                <select name="keputusan" class="form-control" id="keputusan">
                     <option value="">- Pilih Keputusan -</option>
-                    <option value="Pending" <?= $u->status_keputusan == 'Disetujui' ? 'selected' : ''?>>Layak untuk diproses</option>
+                    <option value="Disetujui" <?= $u->status_keputusan == 'Disetujui' ? 'selected' : ''?>>Disetujui</option>
+                    <option value="Pending" <?= $u->status_keputusan == 'Pending' ? 'selected' : ''?>>Pending</option>
                     <option value="Ditolak" <?= $u->status_keputusan == 'Ditolak' ? 'selected' : ''?>>Ditolak</option>
                 </select>
-                <label id="title" class="mt-3"></label>
-                <div id="alasan"></div>
+                @if($auth->jabatan == 'ketua')
+                <div class="form-group my-3" id="saran">
+                    <?php 
+                    if($u->pertimbangan_saran != null) {
+                        ?>
+                    Pertimbangan / Saran yang sudah ditetapkan <b>{{$u->pertimbangan_saran}}</b>
+                    <?php
+                    } else {
+                    ?>
+                    <textarea name="pertimbangan" class="form-control" cols="10" rows="4" placeholder="Pertimbangan / Saran / Usul"></textarea>
+                    <?php    
+                    }
+                    ?>
+                </div>
+                <div class="form-group" id="dana">
+                    <?php 
+                    if($u->dana_yang_disetujui != null) {
+                        ?>
+                        Dana Yang Sudah disetujui <b><?=rupiah($u->dana_yang_disetujui);?></b>
+                        <?php
+                        } else {
+                        ?>
+                        
+                    <input type="text" class="form-control" name="dana" placeholder="Dana yang disetujui">
+                    <?php    
+                    }
+                    ?>
+                </div>
+                @endif
+               
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">PROSES</button>
+                <button type="submit" class="btn btn-primary">SIMPAN</button>
             </div>
         </div>
     </div>
-        <script>
-            var alasan = document.getElementById("keputusan");
-            alasan.addEventListener("change", function(){
-                document.getElementById("alasan").innerHTML = '';
-                document.getElementById("title").innerHTML = '';
-                if(alasan.value == 'Ditolak'){
-                    displayAlasan();
-                }
-            });
-
-            function displayAlasan() {
-            document.getElementById("alasan").innerHTML = `
-
-            <textarea class='form-control'></textarea>
-            `;
-            
-            document.getElementById("title").innerHTML = `Pertimbangan / Saran / Alasan`;
-            }
-        </script>
     @endforeach
     </form>
   </div>
+
+  <script>
+    var alasan = document.getElementById("keputusan");
+    var dana = document.getElementById("dana");
+    var saran = document.getElementById("saran");
+    dana.style.display = 'none';
+    saran.style.display = 'none';
+    alasan.addEventListener("change", function(){
+        if(alasan.value == 'Ditolak' || alasan.value == 'Pending'){
+            dana.style.display = 'none';
+            saran.style.display = 'block';
+        } else if(alasan.value == 'Disetujui') {
+            dana.style.display = 'block';
+            saran.style.display = 'block';
+        }
+    });
+</script>
 
 @endsection

@@ -50,6 +50,9 @@ Route::post('/ubah_user', [UsersController::class, 'ubah_user']);
 
 Route::get('/detail-proses/{id}', [MustahikController::class, 'detail_proses']);
 Route::get('/detail-proses-pengajuan/{id}', [MustahikController::class, 'detail_proses_pengajuan']);
+Route::get('/detail-disetujui/{id}', [MustahikController::class, 'detail_disetujui']);
+Route::get('/detail-pending/{id}', [MustahikController::class, 'detail_pending']);
+Route::get('/detail-ditolak/{id}', [MustahikController::class, 'detail_ditolak']);
 Route::get('/detail-proses-survey/{id}', [MustahikController::class, 'detail_proses_survey']);
 Route::get('/detail-proses-pleno/{id}', [MustahikController::class, 'detail_proses_pleno']);
 Route::get('/detail-proses-pending/{id}', [MustahikController::class, 'detail_proses_pending']);
@@ -61,6 +64,7 @@ Route::post('/simpan-survey', [MustahikController::class, 'simpan_survey']);
 Route::post('/simpan-keputusan', [MustahikController::class, 'simpan_keputusan']);
 
 Route::get('generate-pdf/{id}', [PDFController::class, 'generatePDF']);
+Route::get('mustahik-pdf', [PDFController::class, 'mustahikPDF']);
 
 Route::controller(ExcelController::class)->group(function () {
     Route::get('mustahik-export/{id}', 'export')->name('mustahik.export');

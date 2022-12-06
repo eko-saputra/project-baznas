@@ -1,9 +1,9 @@
 @extends('admin/layout')
 
 @section('content')
-<h3>DETAIL & PROSES VALIDASI</h3>
+<h3>DETAIL</h3>
 <hr>
-<h6 class="py-2 bg-dark text-muted text-center">Validasi Data <i>MUSTAHIK</i></h6>
+<h6 class="py-2 bg-dark text-muted text-center">Data <i>MUSTAHIK</i></h6>
 <div class="container my-3">
     @if(session('success'))
     <p class="alert alert-success">{{ session('success') }}</p>
@@ -29,8 +29,12 @@
                         <div class="col bg-success p-2 text-light">SURVEY <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-check-all" viewBox="0 0 16 16">
                             <path d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992a.252.252 0 0 1 .02-.022zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486-.943 1.179z"/>
                           </svg></div>
-                        <div class="col bg-secondary p-2 text-light">?</div>
-                        <div class="col bg-secondary p-2 text-light">?</div>
+                        <div class="col bg-success p-2 text-light">PLENO <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-check-all" viewBox="0 0 16 16">
+                            <path d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992a.252.252 0 0 1 .02-.022zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486-.943 1.179z"/>
+                          </svg></div>
+                        <div class="col bg-success p-2 text-light">DISETUJUI <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-check-all" viewBox="0 0 16 16">
+                            <path d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992a.252.252 0 0 1 .02-.022zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486-.943 1.179z"/>
+                          </svg></div>
                     </div>
                     <hr>
                     
@@ -79,32 +83,15 @@
                             <div class="card mt-3">
                                 <ul class="list-group list-group-flush">
                                 <li class="list-group-item text-start"><i>Tanggal Pengajuan :</i> <b>{{$u->tanggal_pengajuan}}</b></li>
-
-                                <?php 
-                                function rupiah($angka){
-                                    $hasil_rupiah = "Rp " . number_format($angka,2,',','.');
-                                    return $hasil_rupiah;
-                                }
-                                ?>
                                 </ul>
                             </div>
-                            
-                            @if(count($survey) > 0)
-                            <?php 
-                           if($jum == 0) {
-                            ?>
+                           
                             <div class="mt-3 text-start">
-                                <button class="btn btn-success px-4" data-bs-toggle="modal" data-bs-target="#exampleModal">VALIDASI</button>
+                                <span class="badge badge-lg bg-success p-3">Status {{$validasi[0]->status_keputusan}} <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-check-all" viewBox="0 0 16 16">
+                                    <path d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992a.252.252 0 0 1 .02-.022zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486-.943 1.179z"/>
+                                  </svg></span>
                             </div>
-                            <?php  
-                        } else {
-                            echo "<div class='text-start mt-3'>
-                                <b class='text-muted'>Ket</b> : <b class='text-warning'>Anda sudah melakukan validasi!</b>
-                                </div>";
-                        }
-                        ?>
-                            @endif
-                        </div>
+
                         </div>
                     </div>
                     <h6 class="mt-3 text-center bg-warning text-dark py-3">Dokumentasi Survey</h6>
@@ -131,54 +118,4 @@
         
     @endforeach
 </div>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <form action="{{url('/simpan-keputusan')}}" method="POST">
-        @csrf
-        @foreach($mustahik as $u)
-        <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">PROSES PENETAPAN KEPUTUSAN</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                <input type="hidden" name="id" value="{{$u->mustahik_id}}">
-                <select name="keputusan" class="form-control" id='keputusan'>
-                    <option value="">- Pilih Keputusan -</option>
-                    <option value="Pleno" <?= $u->status_keputusan == 'Disetujui' ? 'selected' : ''?>>Lanjut Proses Pleno</option>
-                    <option value="Ditolak" <?= $u->status_keputusan == 'Ditolak' ? 'selected' : ''?>>Ditolak</option>
-                </select>
-                <label id="title" class="mt-3"></label>
-                <div id="alasan"></div>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">PROSES</button>
-            </div>
-        </div>
-    </div>
-        <script>
-            var alasan = document.getElementById("keputusan");
-            alasan.addEventListener("change", function(){
-                document.getElementById("alasan").innerHTML = '';
-                document.getElementById("title").innerHTML = '';
-                if(alasan.value == 'Ditolak'){
-                    displayAlasan();
-                }
-            });
-
-            function displayAlasan() {
-            document.getElementById("alasan").innerHTML = `
-
-            <textarea class='form-control'></textarea>
-            `;
-            
-            document.getElementById("title").innerHTML = `Pertimbangan / Saran / Alasan`;
-            }
-        </script>
-    @endforeach
-    </form>
-  </div>
-
 @endsection

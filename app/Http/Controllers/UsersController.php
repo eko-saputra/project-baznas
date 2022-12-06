@@ -43,6 +43,7 @@ class UsersController extends Controller
                 'username' => 'required',
                 'password' => 'required',
                 'level' => 'required',
+                'jabatan' => 'required',
             ]);
 
             $user = new User([
@@ -50,6 +51,7 @@ class UsersController extends Controller
                 'username' => $request->username,
                 'password' => Hash::make($request->password),
                 'role' => $request->level,
+                'jabatan' => $request->jabatan,
             ]);
 
             $user->save();
@@ -80,6 +82,7 @@ class UsersController extends Controller
                 'nama' => 'required',
                 'username' => 'required',
                 'level' => 'required',
+                'jabatan' => 'required',
             ]);
 
             if ($request->password == '') {
@@ -87,13 +90,14 @@ class UsersController extends Controller
                     'name' => $request->nama,
                     'username' => $request->username,
                     'role' => $request->level,
+                    'jabatan' => $request->jabatan,
                 ]);
             } else {
                 User::where('user_id', $request->id)->update([
                     'name' => $request->nama,
                     'username' => $request->username,
                     'password' => Hash::make($request->password),
-                    'role' => $request->level,
+                    'jabatan' => $request->jabatan,
                 ]);
             }
 

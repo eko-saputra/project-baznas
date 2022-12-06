@@ -32,17 +32,21 @@
               <tr>
                 <td>{{$u->nama_kepala_kk}}</td>
                 <td><?= strtr($u->kelurahan,"-"," ");?></td>
-                <?php 
-                                //     if($u->status_keputusan == 'Pending'){
-                                //         $bg = 'warning';
-                                //     } else if($u->status_keputusan == 'Disetujui'){
-                                //         $bg = 'success';
-                                //     } else if($u->status_keputusan == 'Ditolak'){
-                                //         $bg = 'danger';
-                                //     }
-                                // ?>
+                                <?php 
+                                    if($u->status_keputusan == 'Pending'){
+                                        $bg = 'warning';
+                                    } else if($u->status_keputusan == 'Disetujui'){
+                                        $bg = 'success';
+                                    } else if($u->status_keputusan == 'Survey'){
+                                        $bg = 'success';
+                                    } else if($u->status_keputusan == 'Pleno'){
+                                        $bg = 'info';
+                                    } else if($u->status_keputusan == 'Ditolak'){
+                                        $bg = 'danger';
+                                    }
+                                ?>
                 <td>
-                  <span class="badge bg-warning">{{$u->status_keputusan}}</span>
+                  <span class="badge bg-<?=$bg?>">{{$u->status_keputusan}}</span>
                 </td>
                 <td><?=rupiah($u->dana_yang_disetujui);?></td>
                 <td>Dumai {{$u->jenis_bantuan}}</td>
@@ -58,8 +62,8 @@
                     <path d="M5 1a2 2 0 0 0-2 2v1h10V3a2 2 0 0 0-2-2H5zm6 8H5a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1z"/>
                     <path d="M0 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-1v-2a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2H2a2 2 0 0 1-2-2V7zm2.5 1a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/>
                   </svg>
-                </a>
-                  <a class="btn btn-warning" href="{{ url('mustahik-export/'.$u->mustahik_id) }}"><img src="{{asset('images/excel.svg')}}" width="20"></a>
+                {{-- </a>
+                  <a class="btn btn-warning" href="{{ url('mustahik-export/'.$u->mustahik_id) }}"><img src="{{asset('images/excel.svg')}}" width="20"></a> --}}
                 </td>
               </tr>
               @endforeach
@@ -110,17 +114,21 @@
               <li class="list-group-item">Kec :  <b><?=$kec;?></b> | Kel:  <b><?= strtr($u->kelurahan,"-"," ");?></b></li>
               <li class="list-group-item">Jenis Bantuan <b>Dumai {{$u->jenis_bantuan}}</b></li>
               <?php 
-                // if($u->status_keputusan == 'Pending'){
-                //   $badge = 'warning';
-                // } else if($u->status_keputusan == 'Disetujui'){
-                //   $badge = 'success';
-                // } else if($u->status_keputusan == 'Ditolak'){
-                //   $badge = 'danger';
-                // }
-              ?>
+                                    if($u->status_keputusan == 'Pending'){
+                                        $bg = 'warning';
+                                    } else if($u->status_keputusan == 'Disetujui'){
+                                        $bg = 'success';
+                                    } else if($u->status_keputusan == 'Survey'){
+                                        $bg = 'success';
+                                    } else if($u->status_keputusan == 'Pleno'){
+                                        $bg = 'info';
+                                    } else if($u->status_keputusan == 'Ditolak'){
+                                        $bg = 'danger';
+                                    }
+                                ?>
               <li class="list-group-item">Pertimbangan / Saran <b>{{$u->pertimbangan_saran}}</b></li>
               <li class="list-group-item">Dana Yang Disetujui <b><?=rupiah($u->dana_yang_disetujui);?></b></li>
-              <li class="list-group-item">Status <b><span class="badge bg-warning">{{$u->status_keputusan}}</span></b></li>
+              <li class="list-group-item">Status <b><span class="badge bg-<?=$bg?>">{{$u->status_keputusan}}</span></b></li>
               <li class="list-group-item">Tanggal Pengajuan <b>{{$u->tanggal_pengajuan}}</b></li>
               <li class="list-group-item">Kegunaan <b>{{$u->kegunaan}}</b></li>
             </ul>

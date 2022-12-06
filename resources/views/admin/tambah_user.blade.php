@@ -32,6 +32,16 @@
                             <option value="staff">Staff</option>
                         </select>
                     </div>
+
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput2" class="form-label">Level</label>
+                        <select name="jabatan" class="form-control">
+                            <option value="ketua">Ketua</option>
+                            <option value="waka">Waka2</option>
+                            <option value="komisioner">Komisioner</option>
+                            <option value="staff">Staff</option>
+                        </select>
+                    </div>
                     
                     <div class="mb-5">
                         <button class="btn btn-success" type="submit">SIMPAN DATA USER</button>

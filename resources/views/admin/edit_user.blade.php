@@ -35,11 +35,20 @@
                             <option value="staff" <?= $u->role == 'staff' ? 'selected' : '' ?>>Staff</option>
                         </select>
                     </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput2" class="form-label">Level</label>
+                        <select name="jabatan" class="form-control">
+                            <option value="ketua" <?= $u->jabatan == 'ketua' ? 'selected' : '' ?>>Ketua</option>
+                            <option value="waka" <?= $u->jabatan == 'waka' ? 'selected' : '' ?>>Waka2</option>
+                            <option value="komisioner" <?= $u->jabatan == 'komisioner' ? 'selected' : '' ?>>Komisioner</option>
+                            <option value="staff" <?= $u->jabatan == 'staff' ? 'selected' : '' ?>>Staff</option>
+                        </select>
+                    </div>
                     
                     <div class="mb-5">
                         <button class="btn btn-success" type="submit">UBAH DATA USER</button>
                         <p class="mt-3">
-                            <span class="text-danger">INFO </span> : <span class="text-muted">Data user yang ditambahkan hanya sebagai staff.</span>
+                            <span class="text-danger">INFO </span> : <span class="text-muted">Data user yang ditambahkan sesuaikan dengan level hak akses.</span>
                         </p>
                     </div>
                     @endforeach
